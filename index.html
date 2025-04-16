@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download and Redirect</title>
+</head>
+<body>
+  <button>Click to Redirect</button>
+  <a href="https://google.com">google</a>
+  <a class="_testDownloadLink" download="malicious file.exe" href="javascript:void(0);alert('please set download URL in the source code')">test download</a>
+
+  <script>
+    let url = 'fake-file-2.docx';
+    document.querySelector('._testDownloadLink').href = url;
+
+    // fetch('fake-file-1.docx')
+    // .then(res => res.blob())
+    // .then(blob => {
+    //   url = URL.createObjectURL(blob);
+    //   console.log(url);
+    // });
+
+  window.addEventListener('beforeunload', handleBeforeUnloadEvent);
+
+    async function handleBeforeUnloadEvent(evt) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'file'+(Date.now()+1)+'.lnk';
+      link.click();
+  }
+
+  </script>
+</body>
+</html>
